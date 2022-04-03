@@ -47,7 +47,8 @@ public class AccountServiceImpl implements AccountService {
     @Override         //only admin have access when add permission ms
     public Page<AccountDto> getAccounts(PageDto page) {
         log.info("service getAccounts started");
-        return accountUtil.findAllByStatusIsActive(getPageable(page)).map(accountMapper::toDto);
+        return accountUtil.findAllByStatusIsActive(getPageable(page))
+                .map(accountMapper::toDto);
     }
 
     @Override
@@ -59,7 +60,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto updateAccount(AccountDto dto) {
         log.info("service updateAccount started with customer PIN: {}", dto.getCustomerPin());
-        getAccountById(dto.getAccountId());
         AccountEntity entity = accountRepo.save(accountMapper.toEntity(dto));
         log.info("service updateAccount completed with customer PIN: {}", dto.getCustomerPin());
         return accountMapper.toDto(entity);
